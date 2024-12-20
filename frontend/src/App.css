@@ -62,7 +62,12 @@
   border-radius: 0;
 }
 
-@media (max-width: 600px) {
+.dashboard-bottom-content {
+  border: 2px solid red;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 703px) {
   .dash-first-inner-content {
     width: 100%;
     padding: 35px;

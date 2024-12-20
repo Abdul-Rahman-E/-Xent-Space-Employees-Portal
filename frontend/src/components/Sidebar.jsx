@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
 import { Layout, Menu, Typography, Button, Flex } from "antd";
-import {
-  MenuUnfoldOutlined,
-  CloseOutlined,
-  MenuFoldOutlined,
-} from "@ant-design/icons";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectItem } from "../store/menuSlice.js";
 import { toggleCollapsed } from "../store/sidebarSlice.js";
