@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
-import { Layout, Menu, Typography, Button } from "antd";
-import { RxDashboard } from "react-icons/rx";
-
-import { IoBarChartSharp } from "react-icons/io5";
-import { BsPeopleFill } from "react-icons/bs";
-import { AiTwotoneAppstore } from "react-icons/ai";
+import { Layout, Menu, Typography, Button, Flex } from "antd";
+import {
+  MenuUnfoldOutlined,
+  CloseOutlined,
+  MenuFoldOutlined,
+} from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectItem } from "../store/menuSlice.js";
 import { toggleCollapsed } from "../store/sidebarSlice.js";
-import { CloseOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
+import { RxDashboard } from "react-icons/rx";
+import { FaRegMoneyBill1 } from "react-icons/fa6";
+import { FaUserCircle } from "react-icons/fa";
+import { IoDocumentText } from "react-icons/io5";
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -22,35 +25,22 @@ const menuItems = [
     path: "/",
   },
   {
-    key: "employee-management",
-    label: "Employee Management",
-    path: "/employee-management",
-    icon: <BsPeopleFill />,
-    children: [
-      { key: "onboarding", label: "Onboarding", path: "/onboarding" },
-      { key: "employees", label: "Employees", path: "/employees" },
-    ],
+    key: "profile",
+    label: "My Profile",
+    path: "/profile",
+    icon: <FaUserCircle />,
   },
   {
-    key: "tools",
-    label: "Tools",
-    path: "/tools",
-    icon: <AiTwotoneAppstore />,
-    children: [
-      { key: "calendar", label: "Calendar", path: "/calendar" },
-      { key: "kanban", label: "Kanban", path: "/kanban" },
-    ],
+    key: "salary",
+    label: "Salary Details",
+    path: "/salary",
+    icon: <IoDocumentText />,
   },
   {
-    key: "charts",
-    label: "Charts",
-    path: "/charts",
-    icon: <IoBarChartSharp />,
-    children: [
-      { key: "line", label: "Line", path: "/charts/line" },
-      { key: "area", label: "Area", path: "/charts/area" },
-      { key: "bar", label: "Bar", path: "/charts/bar" },
-    ],
+    key: "payslips",
+    label: "Payslips",
+    path: "/payslip",
+    icon: <FaRegMoneyBill1 />,
   },
 ];
 
@@ -63,7 +53,6 @@ const Sidebar = () => {
 
   useEffect(() => {
     const currentPath = location.pathname;
-    console.log("currentPath: " + currentPath);
 
     const selectedMenu = menuItems.find((item) => {
       if (item.children) {
@@ -71,7 +60,6 @@ const Sidebar = () => {
           currentPath.startsWith(child.path)
         );
       }
-
       return currentPath === item.path;
     });
 
@@ -90,85 +78,91 @@ const Sidebar = () => {
     dispatch(selectItem(e.key));
   };
 
+  const handleToggle = () => {
+    dispatch(toggleCollapsed());
+  };
+
   return (
-    <Sider
-      className="xent-space sider-mobile"
-      collapsible
-      collapsed={collapsed}
-      onCollapse={() => dispatch(toggleCollapsed())}
-      collapsedWidth="0"
-      trigger={null}
-      breakpoint="md"
-      style={{
-        position: "fixed",
-        left: 0,
-        top: 0,
-        bottom: 0,
-        background: "#001529",
-        zIndex: 1000,
-      }}
-    >
-      <div
+    <>
+      <Sider
+        className="xent-space sider-mobile"
+        collapsible
+        collapsed={collapsed}
+        breakpoint="sm"
+        collapsedWidth="0"
+        onBreakpoint={() => handleToggle()}
+        trigger={null}
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "15px 20px",
+          position: "fixed",
+          left: 0,
+          top: 0,
+          bottom: 0,
+          background: "#001529",
+          zIndex: 1000,
         }}
       >
-        <Title
-          level={4}
+        <Button
+          className="sidebar-toggle"
+          type="text"
+          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          onClick={handleToggle}
           style={{
+            position: "fixed",
+            top: "20px",
+            left: collapsed ? "10px" : "215px",
+            zIndex: 1001,
             color: "white",
-            margin: 0,
-            fontSize: "24px",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
+            fontSize: "18px",
+            background: "#001529",
+            border: "none",
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "15px 20px",
           }}
         >
-          {collapsed ? "X" : "Xent Space"}
-        </Title>
-
-        {!collapsed && (
-          <Button
-            className="close-btn"
-            type="text"
-            icon={
-              <CloseOutlined style={{ color: "white", fontSize: "18px" }} />
-            }
-            onClick={() => dispatch(toggleCollapsed())}
+          <Title
+            level={4}
             style={{
-              background: "transparent",
-              border: "none",
-              outline: "none",
+              color: "white",
+              margin: 0,
+              fontSize: "24px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
-          />
-        )}
-      </div>
+          >
+            {collapsed ? "X" : "Xent Space"}
+          </Title>
+        </div>
 
-      <Menu
-        theme="dark"
-        selectedKeys={[selectedKey]}
-        onClick={handleMenuClick}
-        mode="inline"
-        items={menuItems.map((item) => ({
-          key: item.key,
-          label: item.label,
-          icon: item.icon,
-          children: item.children
-            ? item.children.map((subItem) => ({
-                key: subItem.key,
-                label: subItem.label,
-                onClick: (e) => {
-                  handleMenuClick(e);
-                  navigate(subItem.path);
-                },
-              }))
-            : undefined,
-        }))}
-      />
-    </Sider>
+        <Menu
+          theme="dark"
+          selectedKeys={[selectedKey]}
+          onClick={handleMenuClick}
+          mode="inline"
+          items={menuItems.map((item) => ({
+            key: item.key,
+            label: item.label,
+            icon: item.icon,
+            children: item.children
+              ? item.children.map((subItem) => ({
+                  key: subItem.key,
+                  label: subItem.label,
+                  onClick: (e) => {
+                    handleMenuClick(e);
+                    navigate(subItem.path);
+                  },
+                }))
+              : undefined,
+          }))}
+        />
+      </Sider>
+    </>
   );
 };
 

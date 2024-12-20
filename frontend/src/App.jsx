@@ -5,7 +5,6 @@ import "./App.css";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 
 const { Content } = Layout;
@@ -22,11 +21,9 @@ function App() {
             <ProtectedRoute>
               <Sidebar />
               <Layout style={{ marginLeft: 0, display: "flex" }}>
-                <Navbar />
                 <Content
                   style={{
                     width: "100%",
-                    padding: "20px",
                     height: "100%",
                     overflow: "auto",
                   }}
