@@ -1,9 +1,10 @@
 import React from "react";
-import { Progress, Tabs, Button, Row, Col, Typography } from "antd";
+import { Progress, Flex, Tabs, Button, Row, Col, Typography } from "antd";
 import { CheckCircleOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { StatisticCard } from "@ant-design/pro-components";
 import RcResizeObserver from "rc-resize-observer";
 import { useSelector } from "react-redux";
+import { FaRegMoneyBill1 } from "react-icons/fa6";
 
 const { Title, Text } = Typography;
 
@@ -12,11 +13,10 @@ const { Divider } = StatisticCard;
 const Dashboard = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
 
-  const grossPay = 100000; // Gross Pay
-  const tax = 20000; // Tax
-  const takeHome = grossPay - tax; // Take Home Pay
+  const grossPay = 200000;
+  const tax = 15000;
+  const takeHome = grossPay - tax;
 
-  // Percentages
   const taxPercentage = (tax / grossPay) * 100;
   const takeHomePercentage = (takeHome / grossPay) * 100;
   return (
@@ -43,11 +43,11 @@ const Dashboard = () => {
           gap: "2em",
           flexWrap: "wrap",
           justifyContent: "center",
-          padding: "5px",
+          padding: "20px",
           border: "2px solid black",
         }}
       >
-        <div className="dash-first-content">
+        <div className="dash-first-inner-content">
           <Row gutter={16}>
             <Col xs={24} sm={12} md={8}>
               <div style={{ marginBottom: "10px" }}>
@@ -91,7 +91,7 @@ const Dashboard = () => {
             </Col>
           </Row>
         </div>
-        <Col xs={10} md={8} style={{}}>
+        <Col md={8} className="dash-second-inner-content">
           <StatisticCard
             statistic={{
               title: "Attendance",
@@ -138,23 +138,35 @@ const Dashboard = () => {
               maxWidth: "600px",
               margin: "auto",
               backgroundColor: "#fff",
-              borderRadius: "8px",
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
               padding: "20px",
             }}
           >
+            <Flex
+              style={{
+                alignItems: "center",
+                gap: 10,
+                padding: "5px 5px 30px 5px",
+              }}
+            >
+              <FaRegMoneyBill1 style={{ fontSize: "2.4em" }} />
+              <h2 style={{ fontSize: "1.4em", fontWeight: "600" }}>
+                Your Payslips
+              </h2>
+            </Flex>
+
             {/* Tabs for Year Selection */}
             <Tabs defaultActiveKey="1" type="card" centered>
-              <Tabs.TabPane tab="May 2020" key="1">
+              <Tabs.TabPane tab="May 2024" key="1">
                 <p></p>
               </Tabs.TabPane>
-              <Tabs.TabPane tab="April 2020" key="2">
+              <Tabs.TabPane tab="April 2024" key="2">
                 <p></p>
               </Tabs.TabPane>
-              <Tabs.TabPane tab="March 2020" key="3">
+              <Tabs.TabPane tab="March 2024" key="3">
                 <p></p>
               </Tabs.TabPane>
-              <Tabs.TabPane tab="February 2020" key="4">
+              <Tabs.TabPane tab="February 2024" key="4">
                 <p></p>
               </Tabs.TabPane>
             </Tabs>
@@ -175,13 +187,28 @@ const Dashboard = () => {
                   percent={100}
                   size={180}
                   strokeColor="#d9d9d9"
+                  strokeWidth={10}
                   showInfo={false}
                 />
                 <Progress
                   type="circle"
+                  percent={100}
+                  strokeLinecap="butt"
+                  size={190}
+                  strokeColor="#d9d9d9"
+                  strokeWidth={1}
+                  trailColor="transparent"
+                  showInfo={false}
+                  style={{ position: "absolute", top: -5, left: -5 }}
+                />
+
+                <Progress
+                  type="circle"
                   percent={taxPercentage + takeHomePercentage}
+                  strokeLinecap="butt"
                   size={180}
-                  strokeColor="#52c41a"
+                  strokeColor="#47D9A0"
+                  strokeWidth={10}
                   trailColor="transparent"
                   showInfo={false}
                   style={{ position: "absolute", top: 0, left: 0 }}
@@ -189,8 +216,10 @@ const Dashboard = () => {
                 <Progress
                   type="circle"
                   percent={taxPercentage}
+                  strokeLinecap="butt"
                   size={180}
-                  strokeColor="#f5222d"
+                  strokeColor="#FF697A"
+                  strokeWidth={10}
                   trailColor="transparent"
                   showInfo={false}
                   style={{ position: "absolute", top: 0, left: 0 }}
@@ -207,7 +236,7 @@ const Dashboard = () => {
                   <Title level={5} style={{ margin: 0 }}>
                     MAY
                   </Title>
-                  <Text type="secondary">2020</Text>
+                  <Text type="primary">2024</Text>
                 </div>
               </div>
 
@@ -226,11 +255,11 @@ const Dashboard = () => {
                         style={{
                           width: "4px",
                           height: "20px",
-                          backgroundColor: "#52c41a",
+                          backgroundColor: "#47D9A0",
                           marginRight: "8px",
                         }}
                       />
-                      <Text strong style={{ fontSize: "16px" }}>
+                      <Text strong style={{ fontSize: "1em" }}>
                         Take Home: ₹{takeHome.toLocaleString()}
                       </Text>
                     </div>
@@ -247,11 +276,11 @@ const Dashboard = () => {
                         style={{
                           width: "4px",
                           height: "20px",
-                          backgroundColor: "#f5222d",
+                          backgroundColor: "#FF697A",
                           marginRight: "8px",
                         }}
                       />
-                      <Text strong style={{ fontSize: "16px" }}>
+                      <Text strong style={{ fontSize: "1em" }}>
                         Deductions: ₹{tax.toLocaleString()}
                       </Text>
                     </div>
@@ -272,7 +301,7 @@ const Dashboard = () => {
                           marginRight: "8px",
                         }}
                       />
-                      <Text strong style={{ fontSize: "16px" }}>
+                      <Text strong style={{ fontSize: "1em" }}>
                         Gross Pay: ₹{grossPay.toLocaleString()}
                       </Text>
                     </div>

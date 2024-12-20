@@ -47,19 +47,30 @@
   max-width: 400px;
 }
 
-.dash-first-content {
+.dash-first-inner-content {
   width: 50%;
-  padding: 35px;
+  padding: 30px;
   background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 8px;
+}
+
+.dash-second-inner-content {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 8px;
 }
 
 .ant-pro-statistic-card {
   border-radius: 0;
 }
 
-@media (min-width: 768px) {
-  .close-btn {
-    display: none;
+@media (max-width: 600px) {
+  .dash-first-inner-content {
+    width: 100%;
+    padding: 35px;
+    background-color: #fff;
+  }
+
+  .dash-second-inner-content {
+    width: 100vw;
   }
 }
 
